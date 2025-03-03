@@ -1,0 +1,121 @@
+/* WelcomePage.css - Стили для компонента главной страницы */
+
+.welcome-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.welcome-card {
+  background-color: var(--background-white);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-medium);
+  padding: var(--spacing-xl);
+  max-width: 800px;
+  width: 100%;
+}
+
+.welcome-card h1 {
+  color: var(--primary-color);
+  font-size: 28px;
+  text-align: center;
+  margin-bottom: var(--spacing-md);
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  text-align: center;
+  font-style: italic;
+  margin-bottom: var(--spacing-xl);
+  font-weight: normal;
+  font-size: 18px;
+}
+
+.welcome-content {
+  margin-bottom: var(--spacing-xl);
+}
+
+.instructions {
+  background-color: #f5f9ff;
+  border-left: 4px solid var(--primary-color);
+  padding: var(--spacing-lg);
+  margin: var(--spacing-lg) 0;
+  border-radius: 4px;
+}
+
+.instructions h3 {
+  color: var(--primary-color);
+  margin-bottom: var(--spacing-sm);
+}
+
+.test-benefits h3 {
+  color: var(--primary-color);
+  margin-bottom: var(--spacing-sm);
+}
+
+.test-benefits ul {
+  list-style-type: none;
+  padding-left: var(--spacing-md);
+}
+
+.test-benefits li {
+  margin-bottom: var(--spacing-sm);
+  position: relative;
+  padding-left: var(--spacing-md);
+}
+
+.test-benefits li:before {
+  content: "✓";
+  color: var(--success-color);
+  position: absolute;
+  left: 0;
+  font-weight: bold;
+}
+
+.start-button {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+  background-color: var(--primary-color);
+  color: var(--text-light);
+  font-weight: bold;
+  font-size: 18px;
+  padding: 15px 30px;
+  border-radius: var(--border-radius);
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(25, 118, 210, 0.2);
+}
+
+.start-button:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(25, 118, 210, 0.25);
+}
+
+.start-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(25, 118, 210, 0.2);
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+  .welcome-card {
+    padding: var(--spacing-lg);
+  }
+  
+  .welcome-card h1 {
+    font-size: 24px;
+  }
+  
+  .subtitle {
+    font-size: 16px;
+  }
+  
+  .start-button {
+    max-width: 100%;
+  }
+}

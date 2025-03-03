@@ -1,0 +1,199 @@
+/* ResultsPage.css - Стили для компонента страницы результатов */
+
+.results-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.results-card {
+  background-color: var(--background-white);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-medium);
+  padding: var(--spacing-xl);
+  max-width: 800px;
+  width: 100%;
+}
+
+.results-header {
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
+}
+
+.results-header h2 {
+  color: var(--primary-color);
+  font-size: 28px;
+  margin-bottom: var(--spacing-xs);
+}
+
+.user-name {
+  color: var(--text-secondary);
+  font-size: 18px;
+}
+
+.score-section {
+  display: flex;
+  justify-content: center;
+  margin: var(--spacing-xl) 0;
+}
+
+.score-circle {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--text-light);
+  box-shadow: 0 6px 16px rgba(25, 118, 210, 0.3);
+}
+
+.score-value {
+  font-size: 48px;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.score-label {
+  font-size: 16px;
+  opacity: 0.9;
+}
+
+.results-content {
+  margin-bottom: var(--spacing-xl);
+}
+
+.results-content h3 {
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-sm);
+  font-size: 18px;
+}
+
+.result-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--primary-color);
+  margin-bottom: var(--spacing-lg);
+  padding-bottom: var(--spacing-sm);
+  border-bottom: 2px solid var(--primary-light);
+}
+
+.specialties, .result-description {
+  margin-bottom: var(--spacing-lg);
+}
+
+.specialties h4, .result-description h4 {
+  font-size: 18px;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.disclaimer {
+  background-color: #f5f9ff;
+  padding: var(--spacing-md);
+  border-radius: var(--border-radius);
+  font-style: italic;
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin-top: var(--spacing-lg);
+}
+
+.pdf-section {
+  margin-top: var(--spacing-xl);
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid #e0e0e0;
+}
+
+.pdf-info {
+  margin-bottom: var(--spacing-lg);
+}
+
+.pdf-info h4 {
+  color: var(--primary-color);
+  margin-bottom: var(--spacing-xs);
+}
+
+.download-button {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+  background-color: var(--primary-color);
+  color: var(--text-light);
+  font-weight: bold;
+  font-size: 16px;
+  padding: 14px 20px;
+  border-radius: var(--border-radius);
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(25, 118, 210, 0.2);
+  position: relative;
+}
+
+.download-button:hover {
+  background-color: var(--primary-dark);
+}
+
+.download-button.loading {
+  background-color: #90caf9;
+  cursor: not-allowed;
+}
+
+.download-button.loading:after {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 50%;
+  right: 20px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  animation: spin 1s infinite linear;
+  transform: translateY(-50%);
+}
+
+@keyframes spin {
+  to {
+    transform: translateY(-50%) rotate(360deg);
+  }
+}
+
+.email-notification {
+  text-align: center;
+  margin-top: var(--spacing-md);
+  color: var(--success-color);
+  font-size: 14px;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+  .results-card {
+    padding: var(--spacing-lg);
+  }
+  
+  .results-header h2 {
+    font-size: 24px;
+  }
+  
+  .score-circle {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .score-value {
+    font-size: 36px;
+  }
+  
+  .result-title {
+    font-size: 20px;
+  }
+  
+  .download-button {
+    max-width: 100%;
+  }
+}

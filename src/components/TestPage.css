@@ -1,0 +1,104 @@
+/* TestPage.css - Стили для компонента страницы с вопросами */
+
+.test-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.test-card {
+  background-color: var(--background-white);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-medium);
+  padding: var(--spacing-xl);
+  max-width: 800px;
+  width: 100%;
+}
+
+.progress-container {
+  margin-bottom: var(--spacing-lg);
+}
+
+.progress-text {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-xs);
+  text-align: right;
+}
+
+.progress-bar {
+  height: 6px;
+  background-color: #e0e0e0;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: var(--primary-color);
+  transition: width 0.3s ease;
+}
+
+.category-label {
+  display: inline-block;
+  background-color: var(--primary-light);
+  color: var(--text-light);
+  font-size: 14px;
+  padding: 4px 12px;
+  border-radius: 16px;
+  margin-bottom: var(--spacing-md);
+}
+
+.question-text {
+  font-size: 22px;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-xl);
+  line-height: 1.4;
+}
+
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.option-button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: var(--spacing-lg);
+  background-color: var(--background-white);
+  border: 1px solid #e0e0e0;
+  border-radius: var(--border-radius);
+  font-size: 16px;
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.option-button:hover {
+  background-color: #f5f9ff;
+  border-color: var(--primary-light);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.option-button:active {
+  background-color: #e3f2fd;
+  transform: translateY(0);
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+  .test-card {
+    padding: var(--spacing-lg);
+  }
+  
+  .question-text {
+    font-size: 18px;
+  }
+  
+  .option-button {
+    padding: var(--spacing-md);
+  }
+}

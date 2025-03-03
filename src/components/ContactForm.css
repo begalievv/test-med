@@ -1,0 +1,120 @@
+/* ContactForm.css - Стили для компонента формы контактов */
+
+.contact-form-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.contact-card {
+  background-color: var(--background-white);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-medium);
+  padding: var(--spacing-xl);
+  max-width: 600px;
+  width: 100%;
+}
+
+.contact-card h2 {
+  color: var(--primary-color);
+  font-size: 26px;
+  text-align: center;
+  margin-bottom: var(--spacing-md);
+}
+
+.contact-description {
+  text-align: center;
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-xl);
+}
+
+.form-group {
+  margin-bottom: var(--spacing-lg);
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: var(--spacing-xs);
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: var(--border-radius);
+  font-size: 16px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.2);
+}
+
+.input-error {
+  border-color: var(--error-color) !important;
+  background-color: rgba(244, 67, 54, 0.05);
+}
+
+.error-message {
+  color: var(--error-color);
+  font-size: 14px;
+  margin-top: var(--spacing-xs);
+}
+
+.privacy-notice {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-lg);
+  text-align: center;
+}
+
+.privacy-notice a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+.privacy-notice a:hover {
+  text-decoration: underline;
+}
+
+.submit-button {
+  display: block;
+  width: 100%;
+  background-color: var(--primary-color);
+  color: var(--text-light);
+  font-weight: bold;
+  font-size: 16px;
+  padding: 14px;
+  border-radius: var(--border-radius);
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(25, 118, 210, 0.2);
+}
+
+.submit-button:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(25, 118, 210, 0.25);
+}
+
+.submit-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(25, 118, 210, 0.2);
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+  .contact-card {
+    padding: var(--spacing-lg);
+  }
+  
+  .contact-card h2 {
+    font-size: 22px;
+  }
+}
