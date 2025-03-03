@@ -42,6 +42,9 @@ const TestPage: React.FC<TestPageProps> = ({
             </button>
           ))}
         </div>
+        {question.imageUrl && (
+          <img src={question.imageUrl} alt="Question Image" className="question-image" />
+        )}
       </div>
     </div>
   );

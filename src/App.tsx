@@ -18,7 +18,8 @@ const testQuestions: QuestionData[] = [
             { id: 'c', text: "Общение с пациентами, консультации, психология", score: 3 },
             { id: 'd', text: "Исследования, лабораторная работа, фундаментальная наука", score: 2 },
             { id: 'e', text: "Управление, организация, административная медицина", score: 1 },
-        ]
+        ],
+        imageUrl: "images/image1.jpg"
     },
     {
         id: 2,
@@ -181,7 +182,7 @@ const App: React.FC = () => {
         try {
             // Здесь будет вызов API для отправки данных в n8n
             // Это заглушка для демонстрации
-            const response = await fetch('https://your-n8n-endpoint.com/webhook/test-results', {
+            const response = await fetch('https://n8n.tech-demo.su/webhook-test/medical-test-results', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

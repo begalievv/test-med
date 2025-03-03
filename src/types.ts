@@ -13,6 +13,7 @@ export interface OptionData {
     category: string;
     question: string;
     options: OptionData[];
+    imageUrl?: string;
   }
   
   // Тип для диапазона результатов
