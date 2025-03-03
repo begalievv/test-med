@@ -81,7 +81,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
         
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="name">Ваше имя</label>
+            <label htmlFor="name">Ваше имя <span className="required">*</span></label>
             <input
               type="text"
               id="name"
@@ -95,7 +95,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
           </div>
           
           <div className="form-group">
-            <label htmlFor="email">Ваш email</label>
+            <label htmlFor="email">Ваш email <span className="required">*</span></label>
             <input
               type="email"
               id="email"
