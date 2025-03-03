@@ -29,22 +29,29 @@ const TestPage: React.FC<TestPageProps> = ({
 
         <div className="category-label">{question.category}</div>
         
-        <h2 className="question-text">{question.question}</h2>
+        <div className="question-container">
+          <h2 className="question-text">
+            <span className="question-number">{currentQuestion}.</span> {question.question}
+          </h2>
+        </div>
+        
+        {question.imageUrl && (
+          <div className="question-image-container">
+            <img src={question.imageUrl} alt={`Иллюстрация к вопросу ${currentQuestion}`} className="question-image" />
+          </div>
+        )}
         
         <div className="options-list">
-          {question.options.map((option) => (
+          {question.options.map((option, index) => (
             <button
               key={option.id}
               className="option-button"
               onClick={() => onAnswerSelect(option.score)}
             >
-              {option.text}
+              <span className="option-number">{index + 1}.</span> {option.text}
             </button>
           ))}
         </div>
-        {question.imageUrl && (
-          <img src={question.imageUrl} alt="Question Image" className="question-image" />
-        )}
       </div>
     </div>
   );

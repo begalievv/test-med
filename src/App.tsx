@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import WelcomePage from './components/WelcomePage.tsx';
 import TestPage from './components/TestPage.tsx';
 import ContactForm from './components/ContactForm.tsx';
 import ResultsPage from './components/ResultsPage.tsx';
 import { QuestionData, ResultData, UserData } from './types.ts';
+import { generateGuid } from './utils/quidUtils.ts';
 
 // Данные теста, полученные из документа Word
 const testQuestions: QuestionData[] = [
@@ -31,7 +32,8 @@ const testQuestions: QuestionData[] = [
             { id: 'c', text: "Размеренный ритм, глубокий анализ случая", score: 3 },
             { id: 'd', text: "Работа в тишине, без постоянного контакта с пациентами", score: 2 },
             { id: 'e', text: "Гибкий график, совмещение с научной деятельностью", score: 1 },
-        ]
+        ],
+        imageUrl: "images/image2.jpg"
     },
     {
         id: 3,
@@ -43,7 +45,8 @@ const testQuestions: QuestionData[] = [
             { id: 'c', text: "Дети и подростки", score: 3 },
             { id: 'd', text: "Психосоматические и психологические проблемы", score: 2 },
             { id: 'e', text: "Вообще не пациенты, а коллеги (преподавание, администрирование)", score: 1 },
-        ]
+        ],
+        imageUrl: "images/image3.jpg"
     },
     {
         id: 4,
@@ -55,7 +58,8 @@ const testQuestions: QuestionData[] = [
             { id: 'c', text: "Средне, мануальные навыки не основное", score: 3 },
             { id: 'd', text: "Не важно, я лучше анализирую, чем делаю руками", score: 2 },
             { id: 'e', text: "Мне важнее управление и стратегии", score: 1 },
-        ]
+        ],
+        imageUrl: "images/image4.jpg"
     },
     {
         id: 5,
@@ -67,7 +71,8 @@ const testQuestions: QuestionData[] = [
             { id: 'c', text: "Истории пациентов, психология, наблюдения", score: 3 },
             { id: 'd', text: "Структурированные данные, исследования", score: 2 },
             { id: 'e', text: "Административные процессы, протоколы", score: 1 },
-        ]
+        ],
+        imageUrl: "images/image5.jpg"
     },
     {
         id: 6,
@@ -79,7 +84,8 @@ const testQuestions: QuestionData[] = [
             { id: 'c', text: "Понимать и помогать человеку в целом", score: 3 },
             { id: 'd', text: "Исследовать и разрабатывать новые методы лечения", score: 2 },
             { id: 'e', text: "Организовывать, управлять, обучать", score: 1 },
-        ]
+        ],
+        imageUrl: "images/image1.jpg"
     },
     {
         id: 7,
@@ -91,7 +97,8 @@ const testQuestions: QuestionData[] = [
             { id: 'c', text: "Мне важен контакт с пациентом, стресс мешает", score: 3 },
             { id: 'd', text: "Я лучше анализирую в спокойной обстановке", score: 2 },
             { id: 'e', text: "Я вообще не хочу работать в стрессовых условиях", score: 1 },
-        ]
+        ],
+        imageUrl: "images/image2.jpg"
     },
     {
         id: 8,
@@ -103,7 +110,8 @@ const testQuestions: QuestionData[] = [
             { id: 'c', text: "Эмпатия, длительное ведение пациента", score: 3 },
             { id: 'd', text: "Больше взаимодействия с коллегами, чем с пациентами", score: 2 },
             { id: 'e', text: "Я хочу больше работать с бумагами и процессами", score: 1 },
-        ]
+        ],
+        imageUrl: "images/image3.jpg"
     }
 ];
 
@@ -146,8 +154,14 @@ const App: React.FC = () => {
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [answers, setAnswers] = useState<number[]>(Array(testQuestions.length).fill(0));
     const [totalScore, setTotalScore] = useState(0);
-    const [userData, setUserData] = useState<UserData>({ name: '', email: '' });
+    const [userData, setUserData] = useState<UserData>({ name: '', email: '', phone: '+996', telegram: '' });
     const [result, setResult] = useState<ResultData | null>(null);
+    const [testGuid, setTestGuid] = useState<string>('');
+
+    // Генерируем GUID при первом рендере компонента
+    useEffect(() => {
+        setTestGuid(generateGuid());
+    }, []);
 
     const handleStartTest = () => {
         setCurrentPage('test');
@@ -180,15 +194,20 @@ const App: React.FC = () => {
         setUserData(formData);
 
         try {
-            // Здесь будет вызов API для отправки данных в n8n
-            // Это заглушка для демонстрации
-            const response = await fetch('https://n8n.tech-demo.su/webhook-test/medical-test-results', {
+            // Вызов API для отправки данных в n8n
+            const response = await fetch('https://n8n.tech-demo.su/webhook/medical-test-results', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    userData: formData,
+                    testGuid: testGuid,
+                    userData: {
+                        name: formData.name,
+                        email: formData.email,
+                        phone: formData.phone,
+                        telegram: formData.telegram || "" // Отправляем пустую строку, если телеграм не указан
+                    },
                     testResults: {
                         answers,
                         totalScore,
@@ -225,7 +244,12 @@ const App: React.FC = () => {
             case 'contact':
                 return <ContactForm onSubmit={handleContactSubmit} />;
             case 'results':
-                return <ResultsPage userData={userData} totalScore={totalScore} resultData={result} />;
+                return <ResultsPage 
+                    userData={userData} 
+                    totalScore={totalScore} 
+                    resultData={result} 
+                    testGuid={testGuid}
+                />;
             default:
                 return <WelcomePage onStartClick={handleStartTest} />;
         }

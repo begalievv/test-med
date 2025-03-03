@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  medtest-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: medical-specialty-test
+    ports:
+      - "80:80"
+    restart: unless-stopped
+    volumes:
+      - ./logs:/var/log/nginx
+    networks:
+      - medtest-network
+
+networks:
+  medtest-network:
+    driver: bridge

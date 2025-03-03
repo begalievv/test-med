@@ -170,6 +170,65 @@
   font-size: 14px;
 }
 
+/* Telegram Bot секция */
+.telegram-section {
+  margin-top: var(--spacing-xl);
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid #e0e0e0;
+  text-align: center;
+}
+
+.telegram-section h4 {
+  color: var(--primary-color);
+  margin-bottom: var(--spacing-sm);
+  font-size: 20px;
+}
+
+.qr-code-container {
+  display: flex;
+  justify-content: center;
+  margin: var(--spacing-lg) 0;
+}
+
+.qr-code {
+  max-width: 200px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-light);
+}
+
+.telegram-info {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin-bottom: var(--spacing-lg);
+  max-width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.telegram-button {
+  display: inline-block;
+  background-color: #0088cc; /* Telegram color */
+  color: white;
+  font-weight: bold;
+  padding: 12px 24px;
+  border-radius: var(--border-radius);
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0, 136, 204, 0.3);
+}
+
+.telegram-button:hover {
+  background-color: #0077b5;
+  transform: translateY(-2px);
+  text-decoration: none;
+  color: white;
+  box-shadow: 0 6px 12px rgba(0, 136, 204, 0.4);
+}
+
+.telegram-button:active {
+  transform: translateY(0);
+}
+
 /* Адаптивность для мобильных устройств */
 @media (max-width: 768px) {
   .results-card {
@@ -193,7 +252,23 @@
     font-size: 20px;
   }
   
-  .download-button {
+  .download-button, .telegram-button {
     max-width: 100%;
   }
+}
+.result-id {
+  text-align: center;
+  margin: var(--spacing-md) 0;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.guid-value {
+  font-family: monospace;
+  background-color: #f0f0f0;
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: var(--text-primary);
+  font-weight: 500;
+  user-select: all; /* Позволяет выделить весь текст при клике */
 }

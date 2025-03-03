@@ -6,11 +6,16 @@ interface ResultsPageProps {
   userData: UserData;
   totalScore: number;
   resultData: ResultData | null;
+  testGuid: string;
 }
 
-const ResultsPage: React.FC<ResultsPageProps> = ({ userData, totalScore, resultData }) => {
+const ResultsPage: React.FC<ResultsPageProps> = ({ userData, totalScore, resultData, testGuid }) => {
   const [isDownloading, setIsDownloading] = useState(false);
   const [downloadComplete, setDownloadComplete] = useState(false);
+  
+  // Telegram bot URL с GUID
+  const telegramBotUrl = `https://t.me/medspecialitybot?start=${testGuid}`;
+  const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(telegramBotUrl)}`;
 
   useEffect(() => {
     // Имитация загрузки PDF файла
@@ -81,7 +86,7 @@ const ResultsPage: React.FC<ResultsPageProps> = ({ userData, totalScore, resultD
           </div>
         </div>
         
-        <div className="pdf-section">
+        {/* <div className="pdf-section">
           <div className="pdf-info">
             <h4>Полный отчет в PDF</h4>
             <p>Подробный отчет был отправлен на адрес: <strong>{userData.email}</strong></p>
@@ -101,6 +106,22 @@ const ResultsPage: React.FC<ResultsPageProps> = ({ userData, totalScore, resultD
               <p>✓ PDF также отправлен на ваш email</p>
             </div>
           )}
+        </div> */}
+        
+        {/* Telegram Bot QR Code секция */}
+        <div className="telegram-section">
+          <h4>Получите подробный анализ в Telegram</h4>
+          <p>Отсканируйте QR-код для получения детального результата в нашем Telegram боте:</p>
+          <div className="qr-code-container">
+            <img src={qrCodeUrl} alt="QR-код для Telegram бота" className="qr-code" />
+          </div>
+          <div className="result-id">
+            <p>Ваш ID результата: <span className="guid-value">{testGuid}</span></p>
+          </div>
+          <p className="telegram-info">Наш бот предоставит вам подробную информацию о подходящих специальностях, рекомендации по развитию и ответит на ваши вопросы.</p>
+          <a href={telegramBotUrl} target="_blank" rel="noopener noreferrer" className="telegram-button">
+            Открыть в Telegram
+          </a>
         </div>
       </div>
     </div>

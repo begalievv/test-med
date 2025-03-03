@@ -9,11 +9,14 @@ interface ContactFormProps {
 const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
   const [formData, setFormData] = useState<UserData>({
     name: '',
-    email: ''
+    email: '',
+    phone: '+996',
+    telegram: ''
   });
   const [errors, setErrors] = useState<{
     name?: string;
     email?: string;
+    phone?: string;
   }>({});
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,6 +39,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
     const newErrors: {
       name?: string;
       email?: string;
+      phone?: string;
     } = {};
     
     if (!formData.name.trim()) {
@@ -46,6 +50,12 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
       newErrors.email = 'Пожалуйста, укажите ваш email';
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = 'Пожалуйста, укажите корректный email';
+    }
+    
+    if (!formData.phone.trim()) {
+      newErrors.phone = 'Пожалуйста, укажите ваш номер телефона';
+    } else if (!/^\+996[0-9]{9}$/.test(formData.phone)) {
+      newErrors.phone = 'Пожалуйста, укажите корректный номер (9 цифр после кода +996)';
     }
     
     setErrors(newErrors);
@@ -98,10 +108,38 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
             {errors.email && <div className="error-message">{errors.email}</div>}
           </div>
           
-          <div className="privacy-notice">
+          <div className="form-group">
+            <label htmlFor="phone">Ваш номер телефона <span className="required">*</span></label>
+            <div className="phone-input-container">
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                className={errors.phone ? 'input-error' : ''}
+                placeholder="XXXXXXXXX"
+              />
+            </div>
+            {errors.phone && <div className="error-message">{errors.phone}</div>}
+          </div>
+          
+          <div className="form-group">
+            <label htmlFor="telegram">Ваш Telegram аккаунт (необязательно)</label>
+            <input
+              type="text"
+              id="telegram"
+              name="telegram"
+              value={formData.telegram}
+              onChange={handleChange}
+              placeholder="@username"
+            />
+          </div>
+          
+          {/* <div className="privacy-notice">
             Нажимая кнопку "Получить результаты", вы соглашаетесь с нашей 
             <a href="#"> политикой конфиденциальности</a>.
-          </div>
+          </div> */}
           
           <button type="submit" className="submit-button">
             Получить результаты
