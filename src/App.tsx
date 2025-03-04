@@ -1,166 +1,67 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import './Loading.css';
 import WelcomePage from './components/WelcomePage.tsx';
 import TestPage from './components/TestPage.tsx';
 import ContactForm from './components/ContactForm.tsx';
 import ResultsPage from './components/ResultsPage.tsx';
-import { QuestionData, ResultData, UserData } from './types.ts';
+import { QuestionData, ResultData, UserData, WelcomeContent } from './types';
 import { generateGuid } from './utils/quidUtils.ts';
+import { fetchTestContent } from './utils/apiService.ts';
 
-// Данные теста, полученные из документа Word
-const testQuestions: QuestionData[] = [
-    {
-        id: 1,
-        category: "I. Рабочая среда и стиль работы",
-        question: "Какой тип работы вам больше нравится?",
-        options: [
-            { id: 'a', text: "Работа руками, манипуляции, операции", score: 5 },
-            { id: 'b', text: "Аналитическая работа, диагностика, работа с данными", score: 4 },
-            { id: 'c', text: "Общение с пациентами, консультации, психология", score: 3 },
-            { id: 'd', text: "Исследования, лабораторная работа, фундаментальная наука", score: 2 },
-            { id: 'e', text: "Управление, организация, административная медицина", score: 1 },
-        ],
-        imageUrl: "images/image1.jpg"
-    },
-    {
-        id: 2,
-        category: "I. Рабочая среда и стиль работы",
-        question: "Какой темп работы вам ближе?",
-        options: [
-            { id: 'a', text: "Быстрое принятие решений, экстренные ситуации", score: 5 },
-            { id: 'b', text: "Средний темп, сбалансированная нагрузка", score: 4 },
-            { id: 'c', text: "Размеренный ритм, глубокий анализ случая", score: 3 },
-            { id: 'd', text: "Работа в тишине, без постоянного контакта с пациентами", score: 2 },
-            { id: 'e', text: "Гибкий график, совмещение с научной деятельностью", score: 1 },
-        ],
-        imageUrl: "images/image2.jpg"
-    },
-    {
-        id: 3,
-        category: "I. Рабочая среда и стиль работы",
-        question: "Какие пациенты вам интереснее?",
-        options: [
-            { id: 'a', text: "Экстренные случаи, травмы, тяжелые состояния", score: 5 },
-            { id: 'b', text: "Хронические пациенты, требующие длительного лечения", score: 4 },
-            { id: 'c', text: "Дети и подростки", score: 3 },
-            { id: 'd', text: "Психосоматические и психологические проблемы", score: 2 },
-            { id: 'e', text: "Вообще не пациенты, а коллеги (преподавание, администрирование)", score: 1 },
-        ],
-        imageUrl: "images/image3.jpg"
-    },
-    {
-        id: 4,
-        category: "II. Ваши способности и интересы",
-        question: "Насколько важно для вас владение ручными навыками (операции, манипуляции)?",
-        options: [
-            { id: 'a', text: "Очень важно, я люблю работать руками", score: 5 },
-            { id: 'b', text: "Важно, но больше интересует диагностика", score: 4 },
-            { id: 'c', text: "Средне, мануальные навыки не основное", score: 3 },
-            { id: 'd', text: "Не важно, я лучше анализирую, чем делаю руками", score: 2 },
-            { id: 'e', text: "Мне важнее управление и стратегии", score: 1 },
-        ],
-        imageUrl: "images/image4.jpg"
-    },
-    {
-        id: 5,
-        category: "II. Ваши способности и интересы",
-        question: "Какой тип информации вам проще запоминать?",
-        options: [
-            { id: 'a', text: "Визуальная (анатомия, изображения, рентген)", score: 5 },
-            { id: 'b', text: "Логические связи, алгоритмы, патофизиология", score: 4 },
-            { id: 'c', text: "Истории пациентов, психология, наблюдения", score: 3 },
-            { id: 'd', text: "Структурированные данные, исследования", score: 2 },
-            { id: 'e', text: "Административные процессы, протоколы", score: 1 },
-        ],
-        imageUrl: "images/image5.jpg"
-    },
-    {
-        id: 6,
-        category: "II. Ваши способности и интересы",
-        question: "Что вам больше нравится в медицине?",
-        options: [
-            { id: 'a', text: "Лечить быстро и эффективно, спасать жизни", score: 5 },
-            { id: 'b', text: "Устанавливать сложные диагнозы", score: 4 },
-            { id: 'c', text: "Понимать и помогать человеку в целом", score: 3 },
-            { id: 'd', text: "Исследовать и разрабатывать новые методы лечения", score: 2 },
-            { id: 'e', text: "Организовывать, управлять, обучать", score: 1 },
-        ],
-        imageUrl: "images/image1.jpg"
-    },
-    {
-        id: 7,
-        category: "III. Ваш характер и стиль общения",
-        question: "Как вы относитесь к стрессу?",
-        options: [
-            { id: 'a', text: "Люблю экстрим, он меня мотивирует", score: 5 },
-            { id: 'b', text: "Могу работать в стрессе, но предпочитаю стабильность", score: 4 },
-            { id: 'c', text: "Мне важен контакт с пациентом, стресс мешает", score: 3 },
-            { id: 'd', text: "Я лучше анализирую в спокойной обстановке", score: 2 },
-            { id: 'e', text: "Я вообще не хочу работать в стрессовых условиях", score: 1 },
-        ],
-        imageUrl: "images/image2.jpg"
-    },
-    {
-        id: 8,
-        category: "III. Ваш характер и стиль общения",
-        question: "Какой формат общения вам ближе?",
-        options: [
-            { id: 'a', text: "Минимальный контакт, важен результат", score: 5 },
-            { id: 'b', text: "Чёткие вопросы и логичный анализ", score: 4 },
-            { id: 'c', text: "Эмпатия, длительное ведение пациента", score: 3 },
-            { id: 'd', text: "Больше взаимодействия с коллегами, чем с пациентами", score: 2 },
-            { id: 'e', text: "Я хочу больше работать с бумагами и процессами", score: 1 },
-        ],
-        imageUrl: "images/image3.jpg"
-    }
-];
-
-// Интерпретация результатов
-const resultRanges: ResultData[] = [
-    {
-        range: [30, 40],
-        title: "Хирургические специальности",
-        specialties: "общая хирургия, травматология, нейрохирургия, офтальмология, урология, гинекология",
-        description: "Вы любите работать руками, принимать быстрые решения и видеть результат. Вам подходит динамичная, мануальная медицина с высокой степенью ответственности."
-    },
-    {
-        range: [20, 29],
-        title: "Диагностические специальности",
-        specialties: "терапия, кардиология, гастроэнтерология, эндокринология, инфекционные болезни, неврология",
-        description: "Вам важен анализ и понимание заболеваний. Вы любите системность, умеете глубоко разбираться в клинических случаях. Вам подходит работа с хроническими пациентами и сложными диагностическими задачами."
-    },
-    {
-        range: [15, 19],
-        title: "Педиатрия, семейная медицина, психиатрия",
-        specialties: "педиатрия, семейная медицина, психиатрия",
-        description: "Вы цените контакт с пациентами, длительное ведение и эмпатию. Вам подходят специальности, где важна психологическая работа, индивидуальный подход и ведение пациентов на протяжении всей жизни."
-    },
-    {
-        range: [10, 14],
-        title: "Фундаментальные и лабораторные науки",
-        specialties: "патологическая анатомия, микробиология, генетика, фармакология",
-        description: "Вы любите исследования, анализ данных, вас интересует природа болезней на глубоком уровне. Вам подходит работа в лаборатории, научные разработки, преподавание."
-    },
-    {
-        range: [5, 9],
-        title: "Административная медицина, управление, преподавание",
-        specialties: "медицинский менеджмент, организация здравоохранения, образовательная деятельность",
-        description: "Вы ориентированы на стратегию, управление процессами, оптимизацию системы здравоохранения. Вам подойдут специальности, связанные с медицинским менеджментом, организацией здравоохранения, образовательной деятельностью."
-    }
-];
 
 const App: React.FC = () => {
-    const [currentPage, setCurrentPage] = useState<'welcome' | 'test' | 'contact' | 'results'>('welcome');
+    // State for application pages
+    const [currentPage, setCurrentPage] = useState<'welcome' | 'test' | 'contact' | 'results' | 'loading'>('loading');
+    
+    // State for test data
+    const [testQuestions, setTestQuestions] = useState<QuestionData[]>([]);
+    const [resultRanges, setResultRanges] = useState<ResultData[]>([]);
+    const [welcomeContent, setWelcomeContent] = useState<WelcomeContent | null>(null);
+    
+    // State for user progress
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-    const [answers, setAnswers] = useState<number[]>(Array(testQuestions.length).fill(0));
+    const [answers, setAnswers] = useState<number[]>([]);
     const [totalScore, setTotalScore] = useState(0);
     const [userData, setUserData] = useState<UserData>({ name: '', email: '', phone: '+996', telegram: '' });
     const [result, setResult] = useState<ResultData | null>(null);
     const [testGuid, setTestGuid] = useState<string>('');
+    
+    // State for loading status
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
-    // Генерируем GUID при первом рендере компонента
+    // Load all content from Google Sheets via n8n API
     useEffect(() => {
-        setTestGuid(generateGuid());
+        const loadTestContent = async () => {
+            try {
+                setIsLoading(true);
+                
+                // Fetch all test content from n8n API which gets data from Google Sheets
+                const content = await fetchTestContent();
+                
+                // Update state with fetched content
+                setTestQuestions(content.questions);
+                setResultRanges(content.results);
+                setWelcomeContent(content.welcome);
+                
+                // Initialize answers array based on number of questions
+                setAnswers(Array(content.questions.length).fill(0));
+                
+                // Generate unique test ID
+                setTestGuid(generateGuid());
+                
+                // Set page to welcome after loading
+                setCurrentPage('welcome');
+                setIsLoading(false);
+            } catch (err) {
+                console.error('Error loading test content:', err);
+                setError('Не удалось загрузить содержимое теста. Пожалуйста, обновите страницу или попробуйте позже.');
+                setIsLoading(false);
+            }
+        };
+
+        loadTestContent();
     }, []);
 
     const handleStartTest = () => {
@@ -171,16 +72,16 @@ const App: React.FC = () => {
         const newAnswers = [...answers];
         newAnswers[currentQuestionIndex] = score;
         setAnswers(newAnswers);
-
-        // Переход к следующему вопросу или к форме контактов, если вопросы закончились
+        window.scrollTo(0, 0)
+        // Move to next question or contact form if questions are finished
         if (currentQuestionIndex < testQuestions.length - 1) {
             setCurrentQuestionIndex(currentQuestionIndex + 1);
         } else {
-            // Подсчет общего балла
+            // Calculate final score
             const finalScore = newAnswers.reduce((sum, score) => sum + score, 0);
             setTotalScore(finalScore);
 
-            // Определение результата на основе диапазона баллов
+            // Determine result based on score range
             const matchedResult = resultRanges.find(
                 range => finalScore >= range.range[0] && finalScore <= range.range[1]
             );
@@ -194,7 +95,7 @@ const App: React.FC = () => {
         setUserData(formData);
 
         try {
-            // Вызов API для отправки данных в n8n
+            // Call API to send data to n8n
             const response = await fetch('https://n8n.tech-demo.su/webhook/medical-test-results', {
                 method: 'POST',
                 headers: {
@@ -206,7 +107,7 @@ const App: React.FC = () => {
                         name: formData.name,
                         email: formData.email,
                         phone: formData.phone,
-                        telegram: formData.telegram || "" // Отправляем пустую строку, если телеграм не указан
+                        telegram: formData.telegram || ""
                     },
                     testResults: {
                         answers,
@@ -217,7 +118,7 @@ const App: React.FC = () => {
             });
 
             if (response.ok) {
-                // Переход на страницу результатов
+                // Navigate to results page
                 setCurrentPage('results');
             } else {
                 alert('Произошла ошибка при отправке результатов. Пожалуйста, попробуйте снова.');
@@ -228,10 +129,40 @@ const App: React.FC = () => {
         }
     };
 
+    // Loading screen component
+    const LoadingScreen = () => (
+        <div className="loading-screen">
+            <div className="loader"></div>
+            <p>Загрузка теста...</p>
+        </div>
+    );
+
+    // Error screen component
+    const ErrorScreen = () => (
+        <div className="error-screen">
+            <h2>Ошибка загрузки</h2>
+            <p>{error}</p>
+            <button onClick={() => window.location.reload()}>Попробовать снова</button>
+        </div>
+    );
+
     const renderCurrentPage = () => {
+        if (isLoading) {
+            return <LoadingScreen />;
+        }
+
+        if (error) {
+            return <ErrorScreen />;
+        }
+
         switch (currentPage) {
             case 'welcome':
-                return <WelcomePage onStartClick={handleStartTest} />;
+                return welcomeContent ? (
+                    <WelcomePage 
+                        onStartClick={handleStartTest} 
+                        content={welcomeContent}
+                    />
+                ) : <ErrorScreen />;
             case 'test':
                 return (
                     <TestPage
@@ -251,7 +182,7 @@ const App: React.FC = () => {
                     testGuid={testGuid}
                 />;
             default:
-                return <WelcomePage onStartClick={handleStartTest} />;
+                return <LoadingScreen />;
         }
     };
 

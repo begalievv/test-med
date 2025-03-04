@@ -8,9 +8,7 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <React.StrictMode>
     <App />
-  </React.StrictMode>
 );
 
 // Если вы хотите начать измерять производительность в вашем приложении,

@@ -1,0 +1,59 @@
+/* Loading.css - Styles for loading and error screens */
+
+.loading-screen,
+.error-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  text-align: center;
+  padding: var(--spacing-xl);
+}
+
+.loader {
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid var(--primary-color);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  margin-bottom: var(--spacing-lg);
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-screen p {
+  font-size: 18px;
+  color: var(--text-secondary);
+}
+
+.error-screen h2 {
+  color: var(--error-color);
+  margin-bottom: var(--spacing-md);
+}
+
+.error-screen p {
+  margin-bottom: var(--spacing-lg);
+  color: var(--text-secondary);
+  max-width: 500px;
+}
+
+.error-screen button {
+  background-color: var(--primary-color);
+  color: white;
+  font-weight: bold;
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-radius: var(--border-radius);
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: var(--shadow-light);
+}
+
+.error-screen button:hover {
+  background-color: var(--primary-dark);
+}

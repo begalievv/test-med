@@ -12,6 +12,7 @@ export interface QuestionData {
   id: number;
   category: string;
   question: string;
+  scenario: string;
   options: OptionData[];
   imageUrl?: string;
 }
@@ -40,4 +41,50 @@ export interface TestResults {
   totalScore: number;
   result: ResultData | null;
   timestamp?: Date;
+}
+
+// Новый тип для контента приветственной страницы, загружаемого из Google Sheets
+export interface WelcomeContent {
+  title: string;
+  subtitle: string;
+  mainText: string;
+  instructionsTitle: string;
+  instructionsText: string[];
+  benefitsTitle: string;
+  benefitsList: string[];
+  startButtonText: string;
+}
+
+// Тип для текстов формы контактов
+export interface ContactFormContent {
+  title: string;
+  description: string;
+  nameLabel: string;
+  emailLabel: string;
+  phoneLabel: string;
+  telegramLabel: string;
+  buttonText: string;
+  requiredText: string;
+  validationMessages: {
+    nameRequired: string;
+    emailRequired: string;
+    emailInvalid: string;
+    phoneRequired: string;
+    phoneInvalid: string;
+  };
+}
+
+// Тип для текстов страницы результатов
+export interface ResultsPageContent {
+  title: string;
+  scoreLabel: string;
+  yourDirectionText: string;
+  suitableSpecialtiesText: string;
+  yourProfileText: string;
+  disclaimerText: string;
+  telegramSectionTitle: string;
+  telegramSectionDescription: string;
+  telegramButtonText: string;
+  resultIdText: string;
+  telegramInfoText: string;
 }

@@ -1,18 +1,45 @@
 import React, { useState } from 'react';
-import { UserData } from '../types';
+import { UserData, ContactFormContent } from '../types';
 import './ContactForm.css';
 
 interface ContactFormProps {
   onSubmit: (data: UserData) => void;
+  content?: ContactFormContent; // Dynamic content from Google Sheets
 }
 
-const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
+const ContactForm: React.FC<ContactFormProps> = ({ 
+  onSubmit, 
+  content 
+}) => {
+  // Default content if not provided via props
+  const defaultContent: ContactFormContent = {
+    title: 'Ваши результаты почти готовы!',
+    description: 'Чтобы получить подробный отчет с результатами теста, пожалуйста, заполните следующую информацию:',
+    nameLabel: 'Ваше имя',
+    emailLabel: 'Ваш email',
+    phoneLabel: 'Ваш номер телефона',
+    telegramLabel: 'Ваш Telegram аккаунт (необязательно)',
+    buttonText: 'Получить результаты',
+    requiredText: '*',
+    validationMessages: {
+      nameRequired: 'Пожалуйста, укажите ваше имя',
+      emailRequired: 'Пожалуйста, укажите ваш email',
+      emailInvalid: 'Пожалуйста, укажите корректный email',
+      phoneRequired: 'Пожалуйста, укажите ваш номер телефона',
+      phoneInvalid: 'Пожалуйста, укажите корректный номер (9 цифр после кода +996)'
+    }
+  };
+
+  // Use provided content or default
+  const formContent = content || defaultContent;
+
   const [formData, setFormData] = useState<UserData>({
     name: '',
     email: '',
     phone: '+996',
     telegram: ''
   });
+  
   const [errors, setErrors] = useState<{
     name?: string;
     email?: string;
@@ -26,7 +53,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
       [name]: value
     });
     
-    // Очистка ошибки при вводе
+    // Clear error when user types
     if (errors[name as keyof typeof errors]) {
       setErrors({
         ...errors,
@@ -43,19 +70,19 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
     } = {};
     
     if (!formData.name.trim()) {
-      newErrors.name = 'Пожалуйста, укажите ваше имя';
+      newErrors.name = formContent.validationMessages.nameRequired;
     }
     
     if (!formData.email.trim()) {
-      newErrors.email = 'Пожалуйста, укажите ваш email';
+      newErrors.email = formContent.validationMessages.emailRequired;
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'Пожалуйста, укажите корректный email';
+      newErrors.email = formContent.validationMessages.emailInvalid;
     }
     
     if (!formData.phone.trim()) {
-      newErrors.phone = 'Пожалуйста, укажите ваш номер телефона';
+      newErrors.phone = formContent.validationMessages.phoneRequired;
     } else if (!/^\+996[0-9]{9}$/.test(formData.phone)) {
-      newErrors.phone = 'Пожалуйста, укажите корректный номер (9 цифр после кода +996)';
+      newErrors.phone = formContent.validationMessages.phoneInvalid;
     }
     
     setErrors(newErrors);
@@ -73,15 +100,14 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
   return (
     <div className="contact-form-page">
       <div className="contact-card">
-        <h2>Ваши результаты почти готовы!</h2>
+        <h2>{formContent.title}</h2>
         <p className="contact-description">
-          Чтобы получить подробный отчет с результатами теста, пожалуйста,
-          заполните следующую информацию:
+          {formContent.description}
         </p>
         
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="name">Ваше имя <span className="required">*</span></label>
+            <label htmlFor="name">{formContent.nameLabel} <span className="required">{formContent.requiredText}</span></label>
             <input
               type="text"
               id="name"
@@ -95,7 +121,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
           </div>
           
           <div className="form-group">
-            <label htmlFor="email">Ваш email <span className="required">*</span></label>
+            <label htmlFor="email">{formContent.emailLabel} <span className="required">{formContent.requiredText}</span></label>
             <input
               type="email"
               id="email"
@@ -109,7 +135,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
           </div>
           
           <div className="form-group">
-            <label htmlFor="phone">Ваш номер телефона <span className="required">*</span></label>
+            <label htmlFor="phone">{formContent.phoneLabel} <span className="required">{formContent.requiredText}</span></label>
             <div className="phone-input-container">
               <input
                 type="tel"
@@ -118,14 +144,14 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
                 value={formData.phone}
                 onChange={handleChange}
                 className={errors.phone ? 'input-error' : ''}
-                placeholder="XXXXXXXXX"
+                placeholder="+996XXXXXXXXX"
               />
             </div>
             {errors.phone && <div className="error-message">{errors.phone}</div>}
           </div>
           
           <div className="form-group">
-            <label htmlFor="telegram">Ваш Telegram аккаунт (необязательно)</label>
+            <label htmlFor="telegram">{formContent.telegramLabel}</label>
             <input
               type="text"
               id="telegram"
@@ -136,13 +162,8 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
             />
           </div>
           
-          {/* <div className="privacy-notice">
-            Нажимая кнопку "Получить результаты", вы соглашаетесь с нашей 
-            <a href="#"> политикой конфиденциальности</a>.
-          </div> */}
-          
           <button type="submit" className="submit-button">
-            Получить результаты
+            {formContent.buttonText}
           </button>
         </form>
       </div>
