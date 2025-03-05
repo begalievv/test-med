@@ -73,11 +73,11 @@ const ContactForm: React.FC<ContactFormProps> = ({
       newErrors.name = formContent.validationMessages.nameRequired;
     }
     
-    if (!formData.email.trim()) {
-      newErrors.email = formContent.validationMessages.emailRequired;
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = formContent.validationMessages.emailInvalid;
-    }
+    // if (!formData.email.trim()) {
+    //   newErrors.email = formContent.validationMessages.emailRequired;
+    // } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+    //   newErrors.email = formContent.validationMessages.emailInvalid;
+    // }
     
     if (!formData.phone.trim()) {
       newErrors.phone = formContent.validationMessages.phoneRequired;
@@ -120,7 +120,7 @@ const ContactForm: React.FC<ContactFormProps> = ({
             {errors.name && <div className="error-message">{errors.name}</div>}
           </div>
           
-          <div className="form-group">
+          {/* <div className="form-group">
             <label htmlFor="email">{formContent.emailLabel} <span className="required">{formContent.requiredText}</span></label>
             <input
               type="email"
@@ -132,7 +132,7 @@ const ContactForm: React.FC<ContactFormProps> = ({
               placeholder="example@mail.ru"
             />
             {errors.email && <div className="error-message">{errors.email}</div>}
-          </div>
+          </div> */}
           
           <div className="form-group">
             <label htmlFor="phone">{formContent.phoneLabel} <span className="required">{formContent.requiredText}</span></label>
@@ -150,7 +150,7 @@ const ContactForm: React.FC<ContactFormProps> = ({
             {errors.phone && <div className="error-message">{errors.phone}</div>}
           </div>
           
-          <div className="form-group">
+          {/* <div className="form-group">
             <label htmlFor="telegram">{formContent.telegramLabel}</label>
             <input
               type="text"
@@ -160,7 +160,7 @@ const ContactForm: React.FC<ContactFormProps> = ({
               onChange={handleChange}
               placeholder="@username"
             />
-          </div>
+          </div> */}
           
           <button type="submit" className="submit-button">
             {formContent.buttonText}

@@ -92,7 +92,7 @@ const ResultsPage: React.FC<ResultsPageProps> = ({
           </div>
         </div>
         
-        <div className="results-content">
+        {/* <div className="results-content">
           <h3>{resultsContent.yourDirectionText}</h3>
           <div className="result-title">{resultData.title}</div>
           
@@ -109,7 +109,7 @@ const ResultsPage: React.FC<ResultsPageProps> = ({
           <div className="disclaimer">
             <p>{resultsContent.disclaimerText}</p>
           </div>
-        </div>
+        </div> */}
         
         {/* Telegram Bot QR Code section */}
         <div className="telegram-section">

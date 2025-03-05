@@ -29,6 +29,7 @@ const App: React.FC = () => {
     
     // State for loading status
     const [isLoading, setIsLoading] = useState(true);
+    const [loadingMessage, setLoadingMessage] = useState("Загрузка теста...");
     const [error, setError] = useState<string | null>(null);
 
     // Load all content from Google Sheets via n8n API
@@ -96,7 +97,7 @@ const App: React.FC = () => {
 
         try {
             // Call API to send data to n8n
-            const response = await fetch('https://n8n.tech-demo.su/webhook/medical-test-results', {
+            const response = await fetch('https://n8n.tech-demo.su/webhook/medical-test-results-local', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -119,7 +120,12 @@ const App: React.FC = () => {
 
             if (response.ok) {
                 // Navigate to results page
-                setCurrentPage('results');
+                setIsLoading(true);
+                setLoadingMessage("Загрузка результатов...");
+                setTimeout(() => {
+                    setCurrentPage('results');
+                    setIsLoading(false);
+                }, 2000);
             } else {
                 alert('Произошла ошибка при отправке результатов. Пожалуйста, попробуйте снова.');
             }
@@ -133,7 +139,7 @@ const App: React.FC = () => {
     const LoadingScreen = () => (
         <div className="loading-screen">
             <div className="loader"></div>
-            <p>Загрузка теста...</p>
+            <p>{loadingMessage}</p>
         </div>
     );
 

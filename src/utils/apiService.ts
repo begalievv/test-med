@@ -15,7 +15,7 @@ interface TestContent {
 export const fetchTestContent = async (): Promise<TestContent> => {
   try {
     // Call n8n endpoint that fetches data from Google Sheets
-    const response = await fetch('https://n8n.tech-demo.su/webhook/medical-test-content');
+    const response = await fetch('https://n8n.tech-demo.su/webhook/medical-test-content-local');
     
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -56,7 +56,7 @@ export const fetchTestContent = async (): Promise<TestContent> => {
  */
 export const submitTestResults = async (resultData: any) => {
   try {
-    const response = await fetch('https://n8n.tech-demo.su/webhook/medical-test-results', {
+    const response = await fetch('https://n8n.tech-demo.su/webhook/medical-test-results-local', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
