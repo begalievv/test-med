@@ -79,11 +79,11 @@ const ContactForm: React.FC<ContactFormProps> = ({
     //   newErrors.email = formContent.validationMessages.emailInvalid;
     // }
     
-    if (!formData.phone.trim()) {
-      newErrors.phone = formContent.validationMessages.phoneRequired;
-    } else if (!/^\+996[0-9]{9}$/.test(formData.phone)) {
-      newErrors.phone = formContent.validationMessages.phoneInvalid;
-    }
+    // if (!formData.phone.trim()) {
+    //   newErrors.phone = formContent.validationMessages.phoneRequired;
+    // } else if (!/^\+996[0-9]{9}$/.test(formData.phone)) {
+    //   newErrors.phone = formContent.validationMessages.phoneInvalid;
+    // }
     
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -134,7 +134,7 @@ const ContactForm: React.FC<ContactFormProps> = ({
             {errors.email && <div className="error-message">{errors.email}</div>}
           </div> */}
           
-          <div className="form-group">
+          {/* <div className="form-group">
             <label htmlFor="phone">{formContent.phoneLabel} <span className="required">{formContent.requiredText}</span></label>
             <div className="phone-input-container">
               <input
@@ -148,7 +148,7 @@ const ContactForm: React.FC<ContactFormProps> = ({
               />
             </div>
             {errors.phone && <div className="error-message">{errors.phone}</div>}
-          </div>
+          </div> */}
           
           {/* <div className="form-group">
             <label htmlFor="telegram">{formContent.telegramLabel}</label>
